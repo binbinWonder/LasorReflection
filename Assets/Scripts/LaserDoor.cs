@@ -9,7 +9,8 @@ public class LaserDoor : MonoBehaviour
 
     private float charge;
     private bool isHitThisFrame;
-    private bool isComplete;
+    [HideInInspector]
+    public bool isComplete;
     private Renderer rend;
     private Color originalColor;
 
