@@ -156,7 +156,7 @@ public class LaserEmitter : MonoBehaviour
                         ReflectiveSurface reflector = hit.collider.GetComponent<ReflectiveSurface>();
                         if (reflector != null && i < maxBounces)
                         {
-                            Vector3 normal = reflector.GetWorldNormal(hit.normal);
+                            Vector3 normal = reflector.GetReflectionNormal(hit.normal);
                             direction = Vector3.Reflect(direction, normal);
                             origin = hit.point + direction * 0.001f;
                         }
