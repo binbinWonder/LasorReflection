@@ -11,6 +11,12 @@ public class Hand : MonoBehaviour
     [Header("按键")]
     public KeyCode grabKey = KeyCode.E;
 
+    [Header("旋转")]
+    public float rotationSpeed = 90f;
+    public KeyCode rotateXKey = KeyCode.X;
+    public KeyCode rotateYKey = KeyCode.Y;
+    public KeyCode rotateZKey = KeyCode.Z;
+
     private Grabbable currentGrabbable;
     private Vector3 lastPosition;
     private Quaternion lastRotation;
@@ -55,12 +61,26 @@ public class Hand : MonoBehaviour
         currentGrabbable.transform.position = Vector3.Lerp(
             currentGrabbable.transform.position, targetPos, Time.deltaTime * 20f);
 
+        HandleRotation();
+
         velocity = (transform.position - lastPosition) / Time.deltaTime;
         lastPosition = transform.position;
         lastRotation = transform.rotation;
 
         if (Input.GetMouseButtonDown(0))
             Throw();
+    }
+
+    void HandleRotation()
+    {
+        float rotAmount = rotationSpeed * Time.deltaTime;
+        Vector3 rot = Vector3.zero;
+
+        if (Input.GetKey(rotateXKey)) rot.x = rotAmount;
+        if (Input.GetKey(rotateYKey)) rot.y = rotAmount;
+        if (Input.GetKey(rotateZKey)) rot.z = rotAmount;
+
+        currentGrabbable.transform.Rotate(rot, Space.Self);
     }
 
     void PickUp(Grabbable g)
