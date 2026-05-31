@@ -153,18 +153,6 @@ public class LaserEmitter : MonoBehaviour
                         traveledDistance += segmentDist;
                         points.Add(hit.point);
 
-                        PlayerHealth health = hit.collider.GetComponentInParent<PlayerHealth>();
-                        if (health != null)
-                        {
-                            health.TakeDamage(laserDamage);
-                        }
-
-                        LaserDoor door = hit.collider.GetComponent<LaserDoor>();
-                        if (door != null)
-                        {
-                            door.OnLaserHit(Time.deltaTime);
-                        }
-
                         ReflectiveSurface reflector = hit.collider.GetComponent<ReflectiveSurface>();
                         if (reflector != null && i < maxBounces)
                         {
@@ -174,6 +162,21 @@ public class LaserEmitter : MonoBehaviour
                         }
                         else
                         {
+                            if (hit.collider.GetComponent<Grabbable>() == null)
+                            {
+                                PlayerHealth health = hit.collider.GetComponentInParent<PlayerHealth>();
+                                if (health != null)
+                                {
+                                    health.TakeDamage(laserDamage);
+                                }
+
+                                LaserDoor door = hit.collider.GetComponent<LaserDoor>();
+                                if (door != null)
+                                {
+                                    door.OnLaserHit(Time.deltaTime);
+                                }
+                            }
+
                             break;
                         }
                     }
